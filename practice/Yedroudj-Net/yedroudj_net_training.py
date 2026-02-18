@@ -56,12 +56,15 @@ def main():
     model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     print(model.summary())
     
+    model_optimizer = optimizers.SGD(
+        learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
+        momentum=0.95
+    )
+    model_loss = losses.CategoricalCrossentropy()
+    
     model.compile(
-        optimizer=optimizers.SGD(
-            learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
-            momentum=0.95
-        ),
-        loss=losses.CategoricalCrossentropy(),
+        optimizer=model_optimizer,
+        loss=model_loss,
         metrics=["accuracy"]
     )
     
