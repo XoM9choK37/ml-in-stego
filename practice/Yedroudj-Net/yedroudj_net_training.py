@@ -10,14 +10,14 @@ from step_lr_schedule import StepLRSchedule
 from srm_filter_kernel import all_normalized_hpf_list
 
 def main():
-    COVER_PATH = "../BOSSbase_1.01_bmp_256x256"
-    STEGO_PATH = "../SHELL_256x256"
-    FORMAT = "bmp"
+    COVER_PATH = "F:/MSI Katana/D/DATASETS/BOSSbase_1.01_256x256"
+    STEGO_PATH = "F:/MSI Katana/D/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
+    FORMAT = "pgm"
     DATASET_SIZE = 10_000
     EPOCHS = 400
     BATCH_SIZE = 32
     VALIDATION_SPLIT = 0.20
-
+    
     cover_labeled_files = []
     stego_labeled_files = []
     for i in range(1, DATASET_SIZE + 1):
@@ -56,10 +56,11 @@ def main():
     model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     print(model.summary())
     
-    model_optimizer = optimizers.SGD(
-        learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
-        momentum=0.95
-    )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
+    #     momentum=0.95
+    # )
+    model_optimizer = optimizers.adamw_experimental.AdamW()
     model_loss = losses.CategoricalCrossentropy()
     
     model.compile(
@@ -72,7 +73,7 @@ def main():
               validation_data=validation_sequence,
               epochs=EPOCHS,
               shuffle=False,
-              callbacks=[PeriodicSaveConfig(dirpath="ckpt_shell", period=5)]
+              callbacks=[PeriodicSaveConfig(dirpath="yedroudj_net_adamw", period=5)]
     )
     
     model.evaluate(test_sequence)
