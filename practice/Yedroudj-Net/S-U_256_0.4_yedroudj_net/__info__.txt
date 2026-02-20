@@ -1,2 +1,0 @@
-yedroudj_net
-400 epochs of training on S-UNIWARD_256x256_0.4_bpp
