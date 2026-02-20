@@ -1,0 +1,18 @@
+{
+  "epoch": 5,
+  "logs": {
+    "loss": 0.7693712711334229,
+    "accuracy": 0.5005000233650208,
+    "val_loss": 0.7705532908439636,
+    "val_accuracy": 0.4884999990463257
+  },
+  "optimizer_config": {
+    "name": "Adamax",
+    "learning_rate": 9.999999747378752e-06,
+    "decay": 0.0,
+    "beta_1": 0.8999999761581421,
+    "beta_2": 0.9990000128746033,
+    "epsilon": 1e-07
+  },
+  "learning_rate": 9.999999747378752e-06
+}

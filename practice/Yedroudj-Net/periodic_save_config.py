@@ -22,11 +22,24 @@ class PeriodicSaveConfig(tf.keras.callbacks.Callback):
         self.verbose = verbose
         os.makedirs(self.dirpath, exist_ok=True)
         self._saved_first_model_json = False
+        
+    def _convert_to_serializable(self, obj):
+        if isinstance(obj, (np.integer, np.floating, np.bool_)):
+            return obj.item()
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, dict):
+            return {key: self._convert_to_serializable(value) for key, value in obj.items()}
+        elif isinstance(obj, (list, tuple)):
+            return [self._convert_to_serializable(item) for item in obj]
+        return obj
+        
     def on_epoch_end(self, epoch, logs=None):
         logs = logs or {}
         epoch_index = epoch + 1
         if epoch_index % self.period != 0:
             return
+            
         weights_filename = self.weights_name_template.format(epoch=epoch_index)
         weights_path = os.path.join(self.dirpath, weights_filename)
         try:
@@ -36,11 +49,13 @@ class PeriodicSaveConfig(tf.keras.callbacks.Callback):
         except Exception as e:
             if self.verbose:
                 print(f"[PeriodicSaveConfig] Failed to save weights: {e}")
+                
         should_save_model_json = False
         if not self._saved_first_model_json and self.save_model_json_every is None:
             should_save_model_json = True
         elif isinstance(self.save_model_json_every, int) and (epoch_index % self.save_model_json_every == 0):
             should_save_model_json = True
+            
         if should_save_model_json:
             try:
                 model_json = self.model.to_json()
@@ -53,31 +68,50 @@ class PeriodicSaveConfig(tf.keras.callbacks.Callback):
             except Exception as e:
                 if self.verbose:
                     print(f"[PeriodicSaveConfig] Failed to save model JSON: {e}")
+                    
         info = {}
         info['epoch'] = int(epoch_index)
-        info['logs'] = {k: float(v) if isinstance(v, (int, float, np.floating, np.integer)) else str(v) for k,v in logs.items()}
+        
+        serializable_logs = {}
+        for k, v in logs.items():
+            if isinstance(v, (np.integer, np.floating, np.bool_)):
+                serializable_logs[k] = v.item()
+            elif isinstance(v, (int, float, bool)):
+                serializable_logs[k] = v
+            elif isinstance(v, np.ndarray):
+                serializable_logs[k] = v.tolist()
+            else:
+                serializable_logs[k] = str(v)
+        info['logs'] = serializable_logs
+        
         try:
             opt = self.model.optimizer
             try:
-                info['optimizer_config'] = opt.get_config()
+                opt_config = opt.get_config()
+                info['optimizer_config'] = self._convert_to_serializable(opt_config)
             except Exception:
                 info['optimizer_config'] = str(opt)
+                
             try:
                 lr = opt.learning_rate
                 if hasattr(lr, 'numpy'):
                     info['learning_rate'] = float(lr.numpy())
+                elif isinstance(lr, (tf.Variable, tf.Tensor)):
+                    info['learning_rate'] = float(lr.numpy())
                 else:
-                    info['learning_rate'] = str(lr)
+                    info['learning_rate'] = float(lr)
             except Exception:
                 info['learning_rate'] = None
         except Exception:
             info['optimizer_config'] = None
             info['learning_rate'] = None
+            
         training_info_filename = self.training_info_template.format(epoch=epoch_index)
         training_info_path = os.path.join(self.dirpath, training_info_filename)
+        
         try:
             with open(training_info_path, 'w') as f:
-                json.dump(info, f, indent=2)
+                json.dump(info, f, indent=2, default=self._convert_to_serializable)
             if self.verbose:
                 print(f"[PeriodicSaveConfig] Saved training info to {training_info_path}")
         except Exception as e:

@@ -1,0 +1,26 @@
+{
+  "epoch": 45,
+  "logs": {
+    "loss": 0.7720746397972107,
+    "accuracy": 0.5133749842643738,
+    "val_loss": 0.7729575037956238,
+    "val_accuracy": 0.49300000071525574
+  },
+  "optimizer_config": {
+    "clipnorm": null,
+    "global_clipnorm": null,
+    "clipvalue": null,
+    "use_ema": false,
+    "ema_momentum": 0.99,
+    "ema_overwrite_frequency": null,
+    "jit_compile": true,
+    "is_legacy_optimizer": false,
+    "learning_rate": 1.0000000116860974e-07,
+    "weight_decay": 0.004,
+    "beta_1": 0.9,
+    "beta_2": 0.999,
+    "epsilon": 1e-07,
+    "amsgrad": false
+  },
+  "learning_rate": 1.0000000116860974e-07
+}

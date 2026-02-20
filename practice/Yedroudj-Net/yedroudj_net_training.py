@@ -1,4 +1,5 @@
 import numpy as np
+import tensorflow as tf
 
 from keras import optimizers, losses
 from keras.utils import to_categorical
@@ -60,7 +61,44 @@ def main():
     #     learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
     #     momentum=0.95
     # )
-    model_optimizer = optimizers.adamw_experimental.AdamW()
+    
+    # model_optimizer = optimizers.adamw_experimental.AdamW(learning_rate=1e-3)
+    
+    # model_optimizer = optimizers.adamw_experimental.AdamW(learning_rate=1e-5)
+    
+    # model_optimizer = optimizers.adamw_experimental.AdamW(learning_rate=1e-7)
+    
+    # model_optimizer = optimizers.Adamax(learning_rate=1e-5)
+    
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=100_000,
+    #     alpha=0.0
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=1e-4,
+    #     decay_steps=100_000,
+    #     alpha=0.01
+    # )
+    # model_optimizer = optimizers.adamw_experimental.AdamW(
+    #     learning_rate=model_scheduler
+    # )
+    
+    model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+        initial_learning_rate=0.01,
+        decay_steps=100_000,
+        alpha=0.01
+    )
+    model_optimizer = optimizers.SGD(
+        learning_rate=model_scheduler,
+        momentum=0.95
+    )
+    
     model_loss = losses.CategoricalCrossentropy()
     
     model.compile(
@@ -73,7 +111,7 @@ def main():
               validation_data=validation_sequence,
               epochs=EPOCHS,
               shuffle=False,
-              callbacks=[PeriodicSaveConfig(dirpath="yedroudj_net_adamw", period=5)]
+              callbacks=[PeriodicSaveConfig(dirpath="yedroudj_net_sgd_cosine_decay_from_1e-2_to_1e-4", period=5)]
     )
     
     model.evaluate(test_sequence)

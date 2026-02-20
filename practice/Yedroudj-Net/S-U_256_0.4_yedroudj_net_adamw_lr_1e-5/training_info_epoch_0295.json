@@ -1,0 +1,20 @@
+{
+  "epoch": 295,
+  "logs": {
+    "loss": 0.5452995896339417,
+    "accuracy": 0.7441250085830688,
+    "val_loss": 0.7969620823860168,
+    "val_accuracy": 0.5394999980926514
+  },
+  "optimizer_config": {
+    "clipnorm": null,
+    "global_clipnorm": null,
+    "clipvalue": null,
+    "use_ema": false,
+    "ema_momentum": 0.99,
+    "ema_overwrite_frequency": null,
+    "jit_compile": true,
+    "is_legacy_optimizer": false,
+    "learning_rate": null
+  }
+}

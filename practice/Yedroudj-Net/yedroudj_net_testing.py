@@ -1,5 +1,5 @@
 import numpy as np
-from tensorflow import keras
+import keras
 
 from yedroudj_net import yedroudj_net
 from my_sequence import MySequence
@@ -30,16 +30,16 @@ def main(cover_path, stego_path, format):
 
 
 
-COVER_PATH = "../BOSSbase_1.01_bmp_256x256"
-STEGO_PATH = "../SHELL_256x256_steghide_DarkRadiation"
+COVER_PATH = "F:/MSI Katana/D/DATASETS/BOSSbase_1.01_bmp_256x256"
+STEGO_PATH = "F:/MSI Katana/D/DATASETS/SHELL_256x256"
 FORMAT = "bmp"
 # COVER_PATH = "../BOSSbase_1.01_256x256"
 # STEGO_PATH = "../S-UNIWARD_256x256_0.4_bpp/stego_images"
 # FORMAT = "pgm"
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32
-DIRECTORY_NAME = "ckpt_ksrnet_part3_new"
-WEIGHTS_NUMBER = "0020"
+DIRECTORY_NAME = "yedroudj_net_sgd_cosine_decay"
+WEIGHTS_NUMBER = "0275"
 
 if __name__ == "__main__":
     paths = [
@@ -56,7 +56,8 @@ if __name__ == "__main__":
         ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_AWFULSHRED", "bmp"),
         ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_DarkRadiation", "bmp"),
         ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_IRCbot", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256", "bmp")
+        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256", "bmp"),
+        (COVER_PATH, STEGO_PATH, FORMAT)
     ]
     for cover_path, stego_path, format in paths[-1:]:
         main(cover_path, stego_path, format)

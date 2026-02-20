@@ -1,0 +1,11 @@
+{
+  "epoch": 320,
+  "logs": {
+    "loss": 0.3747446537017822,
+    "accuracy": 0.8193749785423279,
+    "val_loss": 0.9421201944351196,
+    "val_accuracy": 0.6345000267028809
+  },
+  "optimizer_config": "<keras.optimizers.optimizer_v2.gradient_descent.SGD object at 0x00000200185E3A00>",
+  "learning_rate": "<__main__.StepLRSchedule object at 0x00000200185E1ED0>"
+}
