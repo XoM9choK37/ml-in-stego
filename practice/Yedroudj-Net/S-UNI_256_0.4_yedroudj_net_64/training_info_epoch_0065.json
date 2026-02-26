@@ -1,0 +1,11 @@
+{
+  "epoch": 65,
+  "logs": {
+    "loss": 0.7084644436836243,
+    "accuracy": 0.503125011920929,
+    "val_loss": 0.7075563073158264,
+    "val_accuracy": 0.4909999966621399
+  },
+  "optimizer_config": "<keras.optimizers.optimizer_v2.gradient_descent.SGD object at 0x0000025DE0D798A0>",
+  "learning_rate": null
+}

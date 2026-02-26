@@ -5,15 +5,16 @@ from keras import optimizers, losses
 from keras.utils import to_categorical
 
 from yedroudj_net import yedroudj_net
+from yedroudj_net_64 import yedroudj_net_64
 from my_sequence import MySequence
 from periodic_save_config import PeriodicSaveConfig
 from step_lr_schedule import StepLRSchedule
 from srm_filter_kernel import all_normalized_hpf_list
 
 def main():
-    COVER_PATH = "F:/MSI Katana/D/DATASETS/BOSSbase_1.01_256x256"
-    STEGO_PATH = "F:/MSI Katana/D/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
-    FORMAT = "pgm"
+    COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
+    STEGO_PATH = "D:/Documents/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
+    IMAGE_FORMAT = "pgm"
     DATASET_SIZE = 10_000
     EPOCHS = 400
     BATCH_SIZE = 32
@@ -22,8 +23,8 @@ def main():
     cover_labeled_files = []
     stego_labeled_files = []
     for i in range(1, DATASET_SIZE + 1):
-        cover_labeled_files.append(f"{COVER_PATH}/{i}.{FORMAT}")
-        stego_labeled_files.append(f"{STEGO_PATH}/{i}.{FORMAT}")
+        cover_labeled_files.append(f"{COVER_PATH}/{i}.{IMAGE_FORMAT}")
+        stego_labeled_files.append(f"{STEGO_PATH}/{i}.{IMAGE_FORMAT}")
     
     files = np.asarray(cover_labeled_files[:5_000] +
                        stego_labeled_files[:5_000])
@@ -54,8 +55,7 @@ def main():
     validation_sequence = MySequence(validation_files, validation_labels, batch_size=BATCH_SIZE, shuffle=False)
     test_sequence = MySequence(test_files, test_labels, batch_size=BATCH_SIZE, shuffle=False)
 
-    model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
-    print(model.summary())
+    # model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     
     # model_optimizer = optimizers.SGD(
     #     learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
@@ -89,10 +89,74 @@ def main():
     #     learning_rate=model_scheduler
     # )
     
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=100_000,
+    #     alpha=0.01
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    # model_schedule = tf.keras.optimizers.schedules.CosineDecayRestarts(
+    #     initial_learning_rate=0.01,
+    #     first_decay_steps=25_000,
+    #     t_mul=2.0,
+    #     m_mul=0.5,
+    #     alpha=0.01
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_schedule,
+    #     momentum=0.95
+    # )
+    
+    # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
+    #     momentum=0.95
+    # )
+    
+    # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=100_000,
+    #     alpha=0.1
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=100_000,
+    #     alpha=0.01
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_schedule = tf.keras.optimizers.schedules.CosineDecayRestarts(
+    #     initial_learning_rate=0.01,
+    #     first_decay_steps=25_000,
+    #     t_mul=2.0,
+    #     m_mul=0.5,
+    #     alpha=0.1
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_schedule,
+    #     momentum=0.95
+    # )
+    
+    model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
-        initial_learning_rate=0.01,
-        decay_steps=100_000,
-        alpha=0.01
+        initial_learning_rate=0.1,
+        decay_steps=85_000,
+        alpha=0.015
     )
     model_optimizer = optimizers.SGD(
         learning_rate=model_scheduler,
@@ -107,11 +171,13 @@ def main():
         metrics=["accuracy"]
     )
     
+    print(model.summary())
+    
     model.fit(train_sequence,
               validation_data=validation_sequence,
               epochs=EPOCHS,
               shuffle=False,
-              callbacks=[PeriodicSaveConfig(dirpath="yedroudj_net_sgd_cosine_decay_from_1e-2_to_1e-4", period=5)]
+              callbacks=[PeriodicSaveConfig(dirpath="S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-1_to_1.5e-3", period=5)]
     )
     
     model.evaluate(test_sequence)

@@ -1,0 +1,27 @@
+{
+  "epoch": 220,
+  "logs": {
+    "loss": 0.5388332009315491,
+    "accuracy": 0.7126250267028809,
+    "val_loss": 0.66835618019104,
+    "val_accuracy": 0.6115000247955322
+  },
+  "optimizer_config": {
+    "name": "SGD",
+    "learning_rate": {
+      "class_name": "CosineDecayRestarts",
+      "config": {
+        "initial_learning_rate": 0.01,
+        "first_decay_steps": 25000,
+        "t_mul": 2.0,
+        "m_mul": 0.5,
+        "alpha": 0.01,
+        "name": null
+      }
+    },
+    "decay": 0.0,
+    "momentum": 0.949999988079071,
+    "nesterov": false
+  },
+  "learning_rate": null
+}

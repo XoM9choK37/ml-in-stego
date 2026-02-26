@@ -2,15 +2,16 @@ import numpy as np
 import keras
 
 from yedroudj_net import yedroudj_net
+from yedroudj_net_64 import yedroudj_net_64
 from my_sequence import MySequence
 from srm_filter_kernel import all_normalized_hpf_list
 
-def main(cover_path, stego_path, format):
+def main(cover_path, stego_path, image_format):
     cover_labeled_files = []
     stego_labeled_files = []
     for i in range(1, DATASET_SIZE + 1):
-        cover_labeled_files.append(f"{cover_path}/{i}.{format}")
-        stego_labeled_files.append(f"{stego_path}/{i}.{format}")
+        cover_labeled_files.append(f"{cover_path}/{i}.{image_format}")
+        stego_labeled_files.append(f"{stego_path}/{i}.{image_format}")
     test_files = np.asarray(cover_labeled_files[5_000:10_000] +
                             stego_labeled_files[5_000:10_000])
     test_labels = np.asarray([keras.utils.to_categorical(0, 2) for _ in range(5_000)] +
@@ -20,26 +21,23 @@ def main(cover_path, stego_path, format):
     test_files, test_labels = test_files[test_indices], test_labels[test_indices]
     test_sequence = MySequence(test_files, test_labels, batch_size=BATCH_SIZE, shuffle=False)
 
-    model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model.compile(metrics=["accuracy"])
 
     model.load_weights(f"{DIRECTORY_NAME}/weights_epoch_{WEIGHTS_NUMBER}.h5")
 
-    print(cover_path, stego_path, format)
+    print(cover_path, stego_path, image_format)
     model.evaluate(test_sequence)
 
 
 
-COVER_PATH = "F:/MSI Katana/D/DATASETS/BOSSbase_1.01_bmp_256x256"
-STEGO_PATH = "F:/MSI Katana/D/DATASETS/SHELL_256x256"
-FORMAT = "bmp"
-# COVER_PATH = "../BOSSbase_1.01_256x256"
-# STEGO_PATH = "../S-UNIWARD_256x256_0.4_bpp/stego_images"
-# FORMAT = "pgm"
+COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
+STEGO_PATH = "D:/Documents/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
+IMAGE_FORMAT = "pgm"
 DATASET_SIZE = 10_000
-BATCH_SIZE = 32
-DIRECTORY_NAME = "yedroudj_net_sgd_cosine_decay"
-WEIGHTS_NUMBER = "0275"
+BATCH_SIZE = 1
+DIRECTORY_NAME = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1e-3"
+WEIGHTS_NUMBER = "0290"
 
 if __name__ == "__main__":
     paths = [
@@ -57,10 +55,10 @@ if __name__ == "__main__":
         ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_DarkRadiation", "bmp"),
         ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_IRCbot", "bmp"),
         ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256", "bmp"),
-        (COVER_PATH, STEGO_PATH, FORMAT)
+        (COVER_PATH, STEGO_PATH, IMAGE_FORMAT)
     ]
-    for cover_path, stego_path, format in paths[-1:]:
-        main(cover_path, stego_path, format)
+    for cover_path, stego_path, image_format in paths[-1:]:
+        main(cover_path, stego_path, image_format)
 
 ## Training & testing \/ \/ \/
 
