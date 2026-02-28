@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 
 def main():
-    directory = "S-UNI_256_0.4_yedroudj_net_sgd_cosine_decay_from_1e-2_to_0"
+    directory = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1.5e-3"
     for function in find_min_loss, find_max_accuracy, find_min_val_loss, find_max_val_accuracy:
         file, value = function(directory)
         if file is None:

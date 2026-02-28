@@ -23,7 +23,7 @@ def main(cover_path, stego_path, image_format):
 
     model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model.compile(metrics=["accuracy"])
-
+    
     model.load_weights(f"{DIRECTORY_NAME}/weights_epoch_{WEIGHTS_NUMBER}.h5")
 
     print(cover_path, stego_path, image_format)
@@ -35,9 +35,9 @@ COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
 STEGO_PATH = "D:/Documents/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
 IMAGE_FORMAT = "pgm"
 DATASET_SIZE = 10_000
-BATCH_SIZE = 1
-DIRECTORY_NAME = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1e-3"
-WEIGHTS_NUMBER = "0290"
+BATCH_SIZE = 32
+DIRECTORY_NAME = "D:/Documents/WEIGHTS/S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1e-3"
+WEIGHTS_NUMBER = "0345"
 
 if __name__ == "__main__":
     paths = [

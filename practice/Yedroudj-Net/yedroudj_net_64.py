@@ -66,5 +66,5 @@ def yedroudj_net_64(input_shape, all_normalized_hpf_list):
                      kernel_initializer="glorot_uniform")(x)
     out = layers.Softmax(axis=1, name='prob')(x)
 
-    model = models.Model(inputs=inp, outputs=out, name='yedroudj_net')
+    model = models.Model(inputs=inp, outputs=out, name='yedroudj_net_64')
     return model

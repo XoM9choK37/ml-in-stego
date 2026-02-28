@@ -8,8 +8,12 @@ from yedroudj_net import yedroudj_net
 from yedroudj_net_64 import yedroudj_net_64
 from my_sequence import MySequence
 from periodic_save_config import PeriodicSaveConfig
+from periodic_full_save_config import PeriodicFullSaveConfig
 from step_lr_schedule import StepLRSchedule
 from srm_filter_kernel import all_normalized_hpf_list
+
+import subprocess
+import sys
 
 def main():
     COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
@@ -152,11 +156,44 @@ def main():
     #     momentum=0.95
     # )
     
+    # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.1,
+    #     decay_steps=85_000,
+    #     alpha=0.015
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=85_000,
+    #     alpha=0.15
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=100_000,
+    #     alpha=0.15
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
     model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
-        initial_learning_rate=0.1,
-        decay_steps=85_000,
-        alpha=0.015
+        initial_learning_rate=0.01,
+        decay_steps=100_000,
+        alpha=0.15
     )
     model_optimizer = optimizers.SGD(
         learning_rate=model_scheduler,
@@ -173,14 +210,32 @@ def main():
     
     print(model.summary())
     
+    # model_saver = PeriodicFullSaveConfig(
+    #     dirpath='S-UNIWARD_0.4_yedroudj_net_64_cosine_decay',
+    #     period=10,
+    #     model_name_template='model_epoch_{epoch:04d}',
+    #     save_format='tf',
+    #     save_weights_also=True,
+    #     verbose=1
+    # )
+    
     model.fit(train_sequence,
               validation_data=validation_sequence,
               epochs=EPOCHS,
               shuffle=False,
-              callbacks=[PeriodicSaveConfig(dirpath="S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-1_to_1.5e-3", period=5)]
+              callbacks=[PeriodicSaveConfig(dirpath="S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1.5e-3", period=5)]
     )
     
+    # model.fit(train_sequence,
+    #           validation_data=validation_sequence,
+    #           epochs=EPOCHS,
+    #           shuffle=False,
+    #           callbacks=[model_saver]
+    # )
+    
     model.evaluate(test_sequence)
+    
+    subprocess.run([sys.executable, 'find_best_test_accuracy.py'])
 
 
 

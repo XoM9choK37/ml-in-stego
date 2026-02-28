@@ -28,9 +28,10 @@ def main():
     min_test_loss = 314
     max_test_acc = -314
 
-    for i in range(5, MAX_NUM + 1, 5):
+    for i in range(STEP, MAX_NUM + 1, STEP):
         num = str(i).zfill(4)
         model.load_weights(f"{DIRECTORY_NAME}/weights_epoch_{num}.h5")
+        # model = keras.models.load_model(f"S-UNIWARD_0.4_yedroudj_net_64_cosine_decay/model_epoch_{num}")
         arr = model.evaluate(test_sequence)
         loss, acc = arr
         
@@ -49,10 +50,11 @@ def main():
 COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
 STEGO_PATH = "D:/Documents/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
 FORMAT = "pgm"
-OUTPUT_PATH = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_restarts_testing.txt"
+OUTPUT_PATH = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1.5e-3_testing.txt"
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32
-DIRECTORY_NAME = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_restarts"
+DIRECTORY_NAME = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1.5e-3"
+STEP = 5
 MAX_NUM = 400
 
 if __name__ == "__main__":
