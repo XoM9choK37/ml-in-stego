@@ -6,6 +6,8 @@ from keras.utils import to_categorical
 
 from yedroudj_net import yedroudj_net
 from yedroudj_net_64 import yedroudj_net_64
+from ksrnet import ksrnet
+from ksrnet64 import ksrnet64
 from my_sequence import MySequence
 from periodic_save_config import PeriodicSaveConfig
 from periodic_full_save_config import PeriodicFullSaveConfig
@@ -14,6 +16,7 @@ from srm_filter_kernel import all_normalized_hpf_list
 
 import subprocess
 import sys
+import time
 
 def main():
     COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
@@ -189,14 +192,81 @@ def main():
     #     momentum=0.95
     # )
     
-    model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
-    model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
-        initial_learning_rate=0.01,
-        decay_steps=100_000,
-        alpha=0.15
-    )
+    # # model = ksrnet64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    # #     initial_learning_rate=0.01,
+    # #     decay_steps=100_000,
+    # #     alpha=0.1
+    # # )
+    # # model_optimizer = optimizers.SGD(
+    # #     learning_rate=model_scheduler,
+    # #     momentum=0.95
+    # # )
+    
+    # # model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # # model_optimizer = optimizers.SGD(
+    # #     learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
+    # #     momentum=0.95
+    # # )
+    
+    # model_loss = losses.CategoricalCrossentropy()
+    
+    # model.compile(
+    #     optimizer=model_optimizer,
+    #     loss=model_loss,
+    #     metrics=["accuracy"]
+    # )
+    
+    # print(model.summary())
+    
+    # model_saver = PeriodicFullSaveConfig(
+    #     dirpath='S-UNIWARD_0.4_yedroudj_net_64_cosine_decay',
+    #     period=10,
+    #     model_name_template='model_epoch_{epoch:04d}',
+    #     save_format='tf',
+    #     save_weights_also=True,
+    #     verbose=1
+    # )
+    
+    # # start = time.time()
+    # # model.fit(train_sequence,
+    # #           validation_data=validation_sequence,
+    # #           epochs=EPOCHS,
+    # #           shuffle=False,
+    # #           callbacks=[PeriodicSaveConfig(dirpath="S-UNI_256_0.4_yedroudj_net_classic", period=5)]
+    # # )
+    # # end = time.time()
+    # # print(start)
+    # # print(end)
+    # # print(end - start)
+    # # with open("yedroudj_net_classic_time.txt", 'a') as f:
+    # #     f.write(str(start))
+    # #     f.write('\n')
+    # #     f.write(str(end))
+    # #     f.write('\n')
+    # #     f.write(str(end - start))
+    
+    # model.fit(train_sequence,
+    #           validation_data=validation_sequence,
+    #           epochs=EPOCHS,
+    #           shuffle=False,
+    #           callbacks=[model_saver]
+    # )
+    
+    # model = ksrnet64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=100_000,
+    #     alpha=0.1
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    model = ksrnet(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model_optimizer = optimizers.SGD(
-        learning_rate=model_scheduler,
+        learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
         momentum=0.95
     )
     
@@ -210,28 +280,23 @@ def main():
     
     print(model.summary())
     
-    # model_saver = PeriodicFullSaveConfig(
-    #     dirpath='S-UNIWARD_0.4_yedroudj_net_64_cosine_decay',
-    #     period=10,
-    #     model_name_template='model_epoch_{epoch:04d}',
-    #     save_format='tf',
-    #     save_weights_also=True,
-    #     verbose=1
-    # )
-    
+    start = time.time()
     model.fit(train_sequence,
               validation_data=validation_sequence,
               epochs=EPOCHS,
               shuffle=False,
-              callbacks=[PeriodicSaveConfig(dirpath="S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1.5e-3", period=5)]
+              callbacks=[PeriodicSaveConfig(dirpath="S-UNI_256_0.4_ksrnet", period=5)]
     )
-    
-    # model.fit(train_sequence,
-    #           validation_data=validation_sequence,
-    #           epochs=EPOCHS,
-    #           shuffle=False,
-    #           callbacks=[model_saver]
-    # )
+    end = time.time()
+    print(start)
+    print(end)
+    print(end - start)
+    with open("ksrnet_time.txt", 'a') as f:
+        f.write(str(start))
+        f.write('\n')
+        f.write(str(end))
+        f.write('\n')
+        f.write(str(end - start))
     
     model.evaluate(test_sequence)
     

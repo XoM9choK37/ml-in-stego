@@ -3,6 +3,7 @@ from keras import models, regularizers, layers
 
 from yedroudj_net import Scale, HPF, ABS, Trunc
 
+# legacy
 def ksrnet(input_shape, all_normalized_hpf_list):
     inp = layers.Input(shape=input_shape)
 
