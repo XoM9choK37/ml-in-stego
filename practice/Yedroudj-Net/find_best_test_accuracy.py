@@ -23,7 +23,7 @@ def main():
     test_sequence = MySequence(test_files, test_labels, batch_size=BATCH_SIZE, shuffle=False)
 
     # model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
-    model = ksrnet(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    model = ksrnet64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model.compile(metrics=["accuracy"])
 
     min_test_loss = 314
@@ -51,10 +51,10 @@ def main():
 COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
 STEGO_PATH = "D:/Documents/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
 FORMAT = "pgm"
-OUTPUT_PATH = "S-UNI_256_0.4_ksrnet_testing.txt"
+OUTPUT_PATH = "S-UNI_256_0.4_ksrnet64_new_testing.txt"
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32
-DIRECTORY_NAME = "S-UNI_256_0.4_ksrnet"
+DIRECTORY_NAME = "S-UNI_256_0.4_ksrnet64_new"
 STEP = 5
 MAX_NUM = 400
 

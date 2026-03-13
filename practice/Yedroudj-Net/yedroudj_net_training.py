@@ -264,10 +264,44 @@ def main():
     #     momentum=0.95
     # )
     
-    model = ksrnet(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # # model = ksrnet(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # # model_optimizer = optimizers.SGD(
+    # #     learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
+    # #     momentum=0.95
+    # # )
+    
+    # model = ksrnet64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=100_000,
+    #     alpha=0.1
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    # model = ksrnet(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+    #     initial_learning_rate=0.01,
+    #     decay_steps=100_000,
+    #     alpha=0.1
+    # )
+    # model_optimizer = optimizers.SGD(
+    #     learning_rate=model_scheduler,
+    #     momentum=0.95
+    # )
+    
+    model = ksrnet64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    model_scheduler = tf.keras.optimizers.schedules.CosineDecay(
+        initial_learning_rate=0.01,
+        decay_steps=100_000,
+        alpha=0.1
+    )
     model_optimizer = optimizers.SGD(
-        learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
-        momentum=0.95
+        learning_rate=model_scheduler,
+        momentum=0.95,
+        nesterov=True
     )
     
     model_loss = losses.CategoricalCrossentropy()
@@ -285,13 +319,13 @@ def main():
               validation_data=validation_sequence,
               epochs=EPOCHS,
               shuffle=False,
-              callbacks=[PeriodicSaveConfig(dirpath="S-UNI_256_0.4_ksrnet", period=5)]
+              callbacks=[PeriodicSaveConfig(dirpath="S-UNI_256_0.4_ksrnet64_new", period=5)]
     )
     end = time.time()
     print(start)
     print(end)
     print(end - start)
-    with open("ksrnet_time.txt", 'a') as f:
+    with open("__ksrnet64_new_time__.txt", 'a') as f:
         f.write(str(start))
         f.write('\n')
         f.write(str(end))
