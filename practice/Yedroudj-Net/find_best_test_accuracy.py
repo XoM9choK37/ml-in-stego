@@ -8,6 +8,8 @@ from yedroudj_net_64 import yedroudj_net_64
 from ksrnet import ksrnet
 from ksrnet64 import ksrnet64
 
+import os
+
 def main():
     cover_labeled_files = []
     stego_labeled_files = []
@@ -18,12 +20,12 @@ def main():
                             stego_labeled_files[5_000:10_000])
     test_labels = np.asarray([keras.utils.to_categorical(0, 2) for _ in range(5_000)] +
                             [keras.utils.to_categorical(1, 2) for _ in range(5_000)])
-    test_indices = np.arange(10_000)
-    test_files, test_labels = test_files[test_indices], test_labels[test_indices]
+    # test_indices = np.arange(10_000)
+    # test_files, test_labels = test_files[test_indices], test_labels[test_indices]
     test_sequence = MySequence(test_files, test_labels, batch_size=BATCH_SIZE, shuffle=False)
 
-    # model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
-    model = ksrnet64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model = ksrnet64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model.compile(metrics=["accuracy"])
 
     min_test_loss = 314
@@ -48,13 +50,13 @@ def main():
 
 
 
-COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
-STEGO_PATH = "D:/Documents/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
+COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
+STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.2_bpp/stego_images"
 FORMAT = "pgm"
-OUTPUT_PATH = "S-UNI_256_0.4_ksrnet64_new_testing.txt"
+DIRECTORY_NAME = "BOWS2_WOW_256_0.2_yedroudj_net_64_cosine_decay_0"
+OUTPUT_PATH = os.path.join(DIRECTORY_NAME, "testing_info.txt")
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32
-DIRECTORY_NAME = "S-UNI_256_0.4_ksrnet64_new"
 STEP = 5
 MAX_NUM = 400
 

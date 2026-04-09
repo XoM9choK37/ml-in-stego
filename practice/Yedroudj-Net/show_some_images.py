@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
+from PIL import Image
 import os
 
 directory = 'D:/Documents/DATASETS/BOSSbase_1.01_bmp'
@@ -7,8 +7,8 @@ directory = 'D:/Documents/DATASETS/BOSSbase_1.01_bmp'
 images = []
 for filename in os.listdir(directory):
     if filename.endswith(('.png', '.jpg', '.jpeg', '.pgm', '.bmp')) and len(images) < 10:
-        img = mpimg.imread(os.path.join(directory, filename))
-        images.append(img)
+        image = Image.open(os.path.join(directory, filename))
+        images.append(image)
 
 if len(images) < 10:
     raise ValueError("В папке должно быть как минимум 10 изображений.")

@@ -20,7 +20,7 @@ class PeriodicSaveConfig(tf.keras.callbacks.Callback):
         self.training_info_template = training_info_template
         self.save_model_json_every = save_model_json_every
         self.verbose = verbose
-        os.makedirs(self.dirpath, exist_ok=True)
+        os.makedirs(os.path.join(self.dirpath, f"{self.dirpath}_weights"), exist_ok=True)
         self._saved_first_model_json = False
         
     def _convert_to_serializable(self, obj):
@@ -41,7 +41,7 @@ class PeriodicSaveConfig(tf.keras.callbacks.Callback):
             return
             
         weights_filename = self.weights_name_template.format(epoch=epoch_index)
-        weights_path = os.path.join(self.dirpath, weights_filename)
+        weights_path = os.path.join(self.dirpath, f"{self.dirpath}_weights", weights_filename)
         try:
             self.model.save_weights(weights_path)
             if self.verbose:
