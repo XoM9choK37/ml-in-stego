@@ -33,7 +33,7 @@ def main():
 
     for i in range(STEP, MAX_NUM + 1, STEP):
         num = str(i).zfill(4)
-        model.load_weights(f"{DIRECTORY_NAME}/weights_epoch_{num}.h5")
+        model.load_weights(f"{DIRECTORY_NAME}/{DIRECTORY_NAME}_weights/weights_epoch_{num}.h5")
         # model = keras.models.load_model(f"S-UNIWARD_0.4_yedroudj_net_64_cosine_decay/model_epoch_{num}")
         arr = model.evaluate(test_sequence)
         loss, acc = arr
@@ -51,9 +51,10 @@ def main():
 
 
 COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
+# STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.2_bpp/stego_images"
 STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.2_bpp/stego_images"
 FORMAT = "pgm"
-DIRECTORY_NAME = "BOWS2_WOW_256_0.2_yedroudj_net_64_cosine_decay_0"
+DIRECTORY_NAME = "WOW_256_0.2_yedroudj_net_64_cosine_decay_6_not_norm"
 OUTPUT_PATH = os.path.join(DIRECTORY_NAME, "testing_info.txt")
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32

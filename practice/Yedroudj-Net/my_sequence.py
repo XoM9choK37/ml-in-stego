@@ -19,7 +19,7 @@ class MySequence(Sequence):
         batch_images = np.zeros((len(batch_files), 256, 256, 1), dtype=np.float32)
         for index, file in enumerate(batch_files):
             image = load_img(file, color_mode="grayscale")
-            array = np.asarray(image, dtype=np.float32) / 255.0
+            array = np.asarray(image, dtype=np.float32) #/ 255.0
             batch_images[index, ..., 0] = array
         return batch_images, np.asarray(batch_labels, dtype=np.float32)
     def on_epoch_end(self):
