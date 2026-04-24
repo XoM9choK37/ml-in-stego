@@ -52,9 +52,9 @@ def main():
 
 COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
 # STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.2_bpp/stego_images"
-STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.2_bpp/stego_images"
+STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.3_bpp/stego_images"
 FORMAT = "pgm"
-DIRECTORY_NAME = "WOW_256_0.2_yedroudj_net_64_cosine_decay_6_not_norm"
+DIRECTORY_NAME = "WOW_256_0.3_yedroudj_net_64_cosine_decay_1_not_norm"
 OUTPUT_PATH = os.path.join(DIRECTORY_NAME, "testing_info.txt")
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32
