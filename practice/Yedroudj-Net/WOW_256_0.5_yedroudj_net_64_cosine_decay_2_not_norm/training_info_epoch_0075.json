@@ -1,0 +1,25 @@
+{
+  "epoch": 75,
+  "logs": {
+    "loss": 0.32711005210876465,
+    "accuracy": 0.8529999852180481,
+    "val_loss": 0.6722835898399353,
+    "val_accuracy": 0.7360000014305115
+  },
+  "optimizer_config": {
+    "name": "SGD",
+    "learning_rate": {
+      "class_name": "CosineDecay",
+      "config": {
+        "initial_learning_rate": 0.01,
+        "decay_steps": 100000,
+        "alpha": 0.01,
+        "name": null
+      }
+    },
+    "decay": 0.0,
+    "momentum": 0.949999988079071,
+    "nesterov": false
+  },
+  "learning_rate": null
+}

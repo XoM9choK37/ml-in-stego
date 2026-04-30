@@ -36,7 +36,7 @@ import os
 def main():
     COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
     # STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.2_bpp/stego_images"
-    STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.3_bpp/stego_images"
+    STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.5_bpp/stego_images"
     IMAGE_FORMAT = "pgm"
     DATASET_SIZE = 10_000
     EPOCHS = 400
@@ -348,9 +348,9 @@ def main():
     
     model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model_schedule = tf.keras.optimizers.schedules.CosineDecay(
-        initial_learning_rate=0.01,
+        initial_learning_rate=0.001,
         decay_steps=100_000,
-        alpha=0.1
+        alpha=0.001
     )
     model_optimizer = optimizers.SGD(
         learning_rate=model_schedule,
@@ -368,7 +368,7 @@ def main():
         metrics=["accuracy"]
     )
     
-    dirpath = "WOW_256_0.3_yedroudj_net_64_cosine_decay_1_not_norm"
+    dirpath = "WOW_256_0.5_yedroudj_net_64_cosine_decay_4_not_norm"
     os.makedirs(dirpath, exist_ok=True)
     
     # optimizer_info = {
