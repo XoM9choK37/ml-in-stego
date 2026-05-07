@@ -14,8 +14,8 @@ def main():
     cover_labeled_files = []
     stego_labeled_files = []
     for i in range(1, DATASET_SIZE + 1):
-        cover_labeled_files.append(f"{COVER_PATH}/{i}.{FORMAT}")
-        stego_labeled_files.append(f"{STEGO_PATH}/{i}.{FORMAT}")
+        cover_labeled_files.append(f"{COVER_PATH}/{i}.{IMAGE_FORMAT}")
+        stego_labeled_files.append(f"{STEGO_PATH}/{i}.{IMAGE_FORMAT}")
     test_files = np.asarray(cover_labeled_files[5_000:10_000] +
                             stego_labeled_files[5_000:10_000])
     test_labels = np.asarray([keras.utils.to_categorical(0, 2) for _ in range(5_000)] +
@@ -51,10 +51,13 @@ def main():
 
 
 COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
-# STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.2_bpp/stego_images"
-STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.5_bpp/stego_images"
-FORMAT = "pgm"
-DIRECTORY_NAME = "WOW_256_0.5_yedroudj_net_64_cosine_decay_4_not_norm"
+# COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images"
+STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.4_bpp/stego_images"
+# STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.5_bpp/stego_images"
+# STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256"
+IMAGE_FORMAT = "pgm"
+# IMAGE_FORMAT = "bmp"
+DIRECTORY_NAME = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_4_not_norm"
 OUTPUT_PATH = os.path.join(DIRECTORY_NAME, "testing_info.txt")
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32
