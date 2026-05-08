@@ -34,13 +34,13 @@ import os
 # # random.seed(seed)
 
 def main():
-    COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
-    # COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images"
-    STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.4_bpp/stego_images"
+    # COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
+    COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images"
+    # STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.4_bpp/stego_images"
     # STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.5_bpp/stego_images"
-    # STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256"
-    IMAGE_FORMAT = "pgm"
-    # IMAGE_FORMAT = "bmp"
+    STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256"
+    # IMAGE_FORMAT = "pgm"
+    IMAGE_FORMAT = "bmp"
     DATASET_SIZE = 10_000
     EPOCHS = 400
     BATCH_SIZE = 32
@@ -343,22 +343,23 @@ def main():
     #     metrics=["accuracy"]
     # )
     
-    # # # model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
-    # # # model_optimizer = optimizers.SGD(
-    # # #     learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
-    # # #     momentum=0.95
-    # # # )
-    
-    model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
-    model_schedule = tf.keras.optimizers.schedules.CosineDecay(
-        initial_learning_rate=0.01,
-        decay_steps=100_000,
-        alpha=0.1
-    )
+    model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model_optimizer = optimizers.SGD(
-        learning_rate=model_schedule,
+        learning_rate=StepLRSchedule(0.01, 40500, 0.1, np.ceil(files_size / BATCH_SIZE)),
         momentum=0.95
     )
+    
+    # # # # # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # # # # # model_schedule = tf.keras.optimizers.schedules.CosineDecay(
+    # # # # #     initial_learning_rate=0.01,
+    # # # # #     decay_steps=100_000,
+    # # # # #     alpha=0.1
+    # # # # # )
+    # # # # # model_optimizer = optimizers.SGD(
+    # # # # #     learning_rate=model_schedule,
+    # # # # #     momentum=0.95
+    # # # # # )
+    
     # model_optimizer = optimizers.SGD(
     #     learning_rate=StepLRSchedule(0.01, 22500, 0.1, 250),
     #     momentum=0.95
@@ -371,7 +372,7 @@ def main():
         metrics=["accuracy"]
     )
     
-    dirpath = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_4_not_norm"
+    dirpath = "SHELL_256_yedroudj_net_1_not_norm"
     os.makedirs(dirpath, exist_ok=True)
     
     # optimizer_info = {

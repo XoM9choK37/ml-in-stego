@@ -24,7 +24,8 @@ def main():
     # test_files, test_labels = test_files[test_indices], test_labels[test_indices]
     test_sequence = MySequence(test_files, test_labels, batch_size=BATCH_SIZE, shuffle=False)
 
-    model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    model = yedroudj_net(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
+    # model = yedroudj_net_64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     # model = ksrnet64(input_shape=(256, 256, 1), all_normalized_hpf_list=all_normalized_hpf_list)
     model.compile(metrics=["accuracy"])
 
@@ -50,14 +51,14 @@ def main():
 
 
 
-COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
-# COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images"
-STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.4_bpp/stego_images"
+# COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/cover_images"
+COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images"
+# STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/S-UNIWARD_256x256_0.4_bpp/stego_images"
 # STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256/WOW_256x256_0.5_bpp/stego_images"
-# STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256"
-IMAGE_FORMAT = "pgm"
-# IMAGE_FORMAT = "bmp"
-DIRECTORY_NAME = "S-UNI_256_0.4_yedroudj_net_64_cosine_decay_4_not_norm"
+STEGO_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256"
+# IMAGE_FORMAT = "pgm"
+IMAGE_FORMAT = "bmp"
+DIRECTORY_NAME = "SHELL_256_yedroudj_net_1_not_norm"
 OUTPUT_PATH = os.path.join(DIRECTORY_NAME, "testing_info.txt")
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32
