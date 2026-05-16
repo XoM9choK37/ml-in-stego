@@ -1,0 +1,32 @@
+IMAGE_FORMAT = "bmp"
+DATASET_SIZE = 10_000
+BATCH_SIZE = 32
+DIRECTORY_NAME = "D:/Documents/WEIGHTS/SHELL_256_yedroudj_net_64_cosine_decay_0_not_norm_weights"
+WEIGHTS_NUMBER = "0300"
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256_steghide_Anubis bmp
+313/313 [==============================] - 32s 91ms/step - loss: 0.0795 - accuracy: 0.8771
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256_steghide_AWFULSHRED bmp
+313/313 [==============================] - 29s 91ms/step - loss: 0.0795 - accuracy: 0.9051
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256_steghide_DarkRadiation bmp
+313/313 [==============================] - 29s 92ms/step - loss: 0.0795 - accuracy: 0.9287
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256_steghide_IRCbot bmp
+313/313 [==============================] - 29s 92ms/step - loss: 0.0795 - accuracy: 0.8979
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256_stegano_Anubis bmp
+313/313 [==============================] - 29s 92ms/step - loss: 0.0795 - accuracy: 0.9124
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256_stegano_AWFULSHRED bmp
+313/313 [==============================] - 29s 92ms/step - loss: 0.0795 - accuracy: 0.9394
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256_stegano_DarkRadiation bmp
+313/313 [==============================] - 29s 93ms/step - loss: 0.0795 - accuracy: 0.9466
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256_stegano_IRCbot bmp
+313/313 [==============================] - 29s 93ms/step - loss: 0.0795 - accuracy: 0.9221
+
+D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/cover_images D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256/SHELL_256x256 bmp
+313/313 [==============================] - 29s 93ms/step - loss: 0.0795 - accuracy: 0.9158

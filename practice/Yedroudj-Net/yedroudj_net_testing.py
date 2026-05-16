@@ -33,31 +33,32 @@ def main(cover_path, stego_path, image_format):
 
 COVER_PATH = "D:/Documents/DATASETS/BOSSbase_1.01_256x256"
 STEGO_PATH = "D:/Documents/DATASETS/S-UNIWARD_256x256_0.4_bpp/stego_images"
-IMAGE_FORMAT = "pgm"
+IMAGE_FORMAT = "bmp"
 DATASET_SIZE = 10_000
 BATCH_SIZE = 32
-DIRECTORY_NAME = "D:/Documents/WEIGHTS/S-UNI_256_0.4_yedroudj_net_64_cosine_decay_from_1e-2_to_1e-3"
-WEIGHTS_NUMBER = "0345"
+DIRECTORY_NAME = "D:/Documents/WEIGHTS/SHELL_256_yedroudj_net_64_cosine_decay_0_not_norm_weights"
+WEIGHTS_NUMBER = "0300"
 
 if __name__ == "__main__":
+    base_path = "D:/Documents/DATASETS/BOSSbase_1.01_bmp_256x256"
     paths = [
-        ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.1_bpp/stego_images", "pgm"),
-        ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.2_bpp/stego_images", "pgm"),
-        ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.3_bpp/stego_images", "pgm"),
-        ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.4_bpp/stego_images", "pgm"),
-        ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.5_bpp/stego_images", "pgm"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_steghide_Anubis", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_steghide_AWFULSHRED", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_steghide_DarkRadiation", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_steghide_IRCbot", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_Anubis", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_AWFULSHRED", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_DarkRadiation", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256_stegano_IRCbot", "bmp"),
-        ("../BOSSbase_1.01_bmp_256x256", "../SHELL_256x256", "bmp"),
-        (COVER_PATH, STEGO_PATH, IMAGE_FORMAT)
+        # ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.1_bpp/stego_images", "pgm"),
+        # ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.2_bpp/stego_images", "pgm"),
+        # ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.3_bpp/stego_images", "pgm"),
+        # ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.4_bpp/stego_images", "pgm"),
+        # ("../BOSSbase_1.01_256x256", "../S-UNIWARD_256x256_0.5_bpp/stego_images", "pgm"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256_steghide_Anubis", "bmp"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256_steghide_AWFULSHRED", "bmp"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256_steghide_DarkRadiation", "bmp"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256_steghide_IRCbot", "bmp"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256_stegano_Anubis", "bmp"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256_stegano_AWFULSHRED", "bmp"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256_stegano_DarkRadiation", "bmp"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256_stegano_IRCbot", "bmp"),
+        (f"{base_path}/cover_images", f"{base_path}/SHELL_256x256", "bmp"),
+        # (COVER_PATH, STEGO_PATH, IMAGE_FORMAT),
     ]
-    for cover_path, stego_path, image_format in paths[-1:]:
+    for cover_path, stego_path, image_format in paths:
         main(cover_path, stego_path, image_format)
 
 ## Training & testing \/ \/ \/
