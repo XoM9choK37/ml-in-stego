@@ -1,0 +1,190 @@
+@startuml KSRNet
+skinparam backgroundColor #FEFEFE
+skinparam componentStyle rectangle
+skinparam nodesep 40
+skinparam ranksep 30
+
+title Архитектура KSRNet
+
+component "Входное изображение\n(input_shape)" as input
+
+package "Предобработка" #LightYellow {
+    component "HPF\n(all_normalized_hpf_list, T=3.0)" as hpf
+}
+
+package "Блок 1" #LightCyan {
+    component "Conv2D 5×5, 30\nL2=0.0001\nGlorot Uniform" as conv1
+    component "ABS" as abs1
+    component "BatchNorm\nmomentum=0.001" as bn1
+    component "Scale" as scale1
+    component "Trunc\nscale=3.0" as trunc1
+    
+    component "Conv2D 1×1, 30\n(Параллельная ветвь)" as conv1_par
+    component "BatchNorm\nmomentum=0.001" as bn1_par
+    component "Scale" as scale1_par
+    
+    component "Concatenate" as concat1
+}
+
+package "Блок 2" #LightGreen {
+    component "Conv2D 5×5, 30\nL2=0.0001" as conv2
+    component "BatchNorm\nmomentum=0.001" as bn2
+    component "Scale" as scale2
+    component "Trunc\nscale=2.0" as trunc2
+    component "AvgPool 5×5\nstrides=2" as pool2
+    
+    component "Conv2D 2×2, 30\nstrides=2\n(Параллельная ветвь)" as conv2_par
+    component "BatchNorm\nmomentum=0.001" as bn2_par
+    component "Scale" as scale2_par
+    
+    component "Concatenate" as concat2
+}
+
+package "Блок 3" #LightSalmon {
+    component "Conv2D 3×3, 32\nL2=0.0001" as conv3
+    component "BatchNorm\nmomentum=0.001" as bn3
+    component "Scale" as scale3
+    component "ReLU" as relu3
+    component "AvgPool 5×5\nstrides=2" as pool3
+    
+    component "Conv2D 2×2, 32\nstrides=2\n(Параллельная ветвь)" as conv3_par
+    component "BatchNorm\nmomentum=0.001" as bn3_par
+    component "Scale" as scale3_par
+    
+    component "Concatenate" as concat3
+}
+
+package "Блок 4" #Wheat {
+    component "Conv2D 3×3, 64\nL2=0.0001" as conv4
+    component "BatchNorm\nmomentum=0.001" as bn4
+    component "Scale" as scale4
+    component "ReLU" as relu4
+    component "AvgPool 5×5\nstrides=2" as pool4
+    
+    component "Conv2D 2×2, 64\nstrides=2\n(Параллельная ветвь)" as conv4_par
+    component "BatchNorm\nmomentum=0.001" as bn4_par
+    component "Scale" as scale4_par
+    
+    component "Concatenate" as concat4
+}
+
+package "Блок 5" #Thistle {
+    component "Conv2D 3×3, 128\nL2=0.0001" as conv5
+    component "BatchNorm\nmomentum=0.001" as bn5
+    component "Scale" as scale5
+    component "ReLU" as relu5
+    
+    component "Conv2D 1×1, 128\n(Параллельная ветвь)" as conv5_par
+    component "BatchNorm\nmomentum=0.001" as bn5_par
+    component "Scale" as scale5_par
+    
+    component "Concatenate" as concat5
+}
+
+package "Классификатор" #LightPink {
+    component "GlobalAveragePooling2D" as gap
+    component "Dense 256\nReLU\nL2=0.0001" as fc1
+    component "Dense 1024\nReLU\nL2=0.0001" as fc2
+    component "Dense 2" as fc3
+    component "Softmax" as softmax
+}
+
+component "Выход\n(2 класса)" as output
+
+' Основной поток
+input --> hpf
+
+hpf --> conv1
+hpf --> conv1_par
+
+conv1 --> abs1
+abs1 --> bn1
+bn1 --> scale1
+scale1 --> trunc1
+
+conv1_par --> bn1_par
+bn1_par --> scale1_par
+
+trunc1 --> concat1
+scale1_par --> concat1
+
+concat1 --> conv2
+concat1 --> conv2_par
+
+conv2 --> bn2
+bn2 --> scale2
+scale2 --> trunc2
+trunc2 --> pool2
+
+conv2_par --> bn2_par
+bn2_par --> scale2_par
+
+pool2 --> concat2
+scale2_par --> concat2
+
+concat2 --> conv3
+concat2 --> conv3_par
+
+conv3 --> bn3
+bn3 --> scale3
+scale3 --> relu3
+relu3 --> pool3
+
+conv3_par --> bn3_par
+bn3_par --> scale3_par
+
+pool3 --> concat3
+scale3_par --> concat3
+
+concat3 --> conv4
+concat3 --> conv4_par
+
+conv4 --> bn4
+bn4 --> scale4
+scale4 --> relu4
+relu4 --> pool4
+
+conv4_par --> bn4_par
+bn4_par --> scale4_par
+
+pool4 --> concat4
+scale4_par --> concat4
+
+concat4 --> conv5
+concat4 --> conv5_par
+
+conv5 --> bn5
+bn5 --> scale5
+scale5 --> relu5
+
+conv5_par --> bn5_par
+bn5_par --> scale5_par
+
+relu5 --> concat5
+scale5_par --> concat5
+
+concat5 --> gap
+gap --> fc1
+fc1 --> fc2
+fc2 --> fc3
+fc3 --> softmax
+softmax --> output
+
+note right of concat1
+  Объединение основной
+  и параллельной ветвей
+  (60 карт признаков)
+end note
+
+note right of concat2
+  Объединение после
+  понижения разрешения
+  (60 карт признаков)
+end note
+
+note right of concat5
+  Последнее объединение
+  (256 карт признаков)
+end note
+
+@enduml
